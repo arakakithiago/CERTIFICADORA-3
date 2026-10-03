@@ -1,4 +1,3 @@
-// Ponto de entrada do back-end (Trilha Digital)
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -7,12 +6,6 @@ const { Client } = require('pg');
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-// DEBUG temporário
-console.log('--- DEBUG conexão ---');
-console.log('DB_PASSWORD tipo:', typeof process.env.DB_PASSWORD);
-console.log('DB_PASSWORD valor:', JSON.stringify(process.env.DB_PASSWORD));
-console.log('----------------------');
 
 app.get('/', (req, res) => {
   res.send('API Trilha Digital rodando!');
