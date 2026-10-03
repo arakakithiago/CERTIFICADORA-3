@@ -5,7 +5,7 @@ import iconCalendario from '../assets/icons/34_calendario.png'
 
 function NextActivityCard({ categoria, titulo, data, hora, local, vagas }) {
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-5 w-full max-w-sm">
+    <div className="bg-white rounded-2xl shadow-sm p-5 w-full">
       <h2 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
         <img src={iconCalendario} alt="" className="w-5 h-5" />
         Próxima atividade
