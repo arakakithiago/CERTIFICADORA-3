@@ -1,11 +1,15 @@
 import heroImg from '../assets/hero.png'
+import { useAuth } from '../context/AuthContext'
 
-function Hero({ nomeUsuaria }) {
+function Hero() {
+  const { usuario } = useAuth()
+  const nomeExibido = usuario ? usuario.nome : 'visitante'
+
   return (
     <div className="relative bg-gradient-to-r from-purple-700 via-fuchsia-600 to-orange-400 rounded-2xl overflow-hidden mb-6 p-8 min-h-[220px]">
       <div className="relative z-10 max-w-sm">
         <h1 className="text-3xl font-bold text-white mb-2">
-          Olá, {nomeUsuaria}! <span>✨</span>
+          Olá, {nomeExibido}! <span>✨</span>
         </h1>
         <p className="text-white/90 font-medium mb-3">Que bom te ver por aqui!</p>
         <p className="text-white/80 text-sm leading-relaxed">
