@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const pool = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
+const mentoraRoutes = require('./routes/mentoraRoutes');
 
 const app = express();
 app.use(cors());
@@ -22,6 +23,7 @@ app.get('/status-banco', async (req, res) => {
 });
 
 app.use('/api', authRoutes);
+app.use('/api', mentoraRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
