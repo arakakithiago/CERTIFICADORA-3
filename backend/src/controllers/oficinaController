@@ -1,0 +1,56 @@
+const pool = require('../config/db');
+
+// RF02 - Cadastrar oficina (Coordenação)
+async function cadastrarOficina(req, res) {
+    const { titulo, descricao, data, vagas, instrutora_id } = req.body;
+
+    if (!titulo || !data || !vagas) {
+        return res.status(400).json({ erro: 'Título, data e vagas são obrigatórios.' });
+    }
+
+    try {
+        const resultado = await pool.query(
+            `INSERT INTO oficinas (titulo, descricao, data, vagas, instrutora_id)
+             VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+            [titulo, descricao, data, vagas, instrutora_id]
+        );
+        res.status(201).json({ mensagem: 'Oficina cadastrada com sucesso!', oficina: resultado.rows[0] });
+    } catch (erro) {
+        console.error(erro);
+        res.status(500).json({ erro: 'Erro ao cadastrar oficina.' });
+    }
+}
+
+// RF03 - Menina se inscrever na atividade
+async function inscreverMenina(req, res) {
+    const { oficina_id, menina_id } = req.body;
+
+    try {
+        await pool.query(
+            `INSERT INTO inscricoes (oficina_id, menina_id) VALUES ($1, $2)`,
+            [oficina_id, menina_id]
+        );
+        res.status(201).json({ mensagem: 'Inscrição realizada com sucesso!' });
+    } catch (erro) {
+        console.error(erro);
+        res.status(500).json({ erro: 'Erro na inscrição. A menina já pode estar inscrita nesta oficina.' });
+    }
+}
+
+// RF04 - Registrar presença
+async function registrarPresenca(req, res) {
+    const { oficina_id, menina_id } = req.body;
+
+    try {
+        await pool.query(
+            `UPDATE inscricoes SET presenca = true WHERE oficina_id = $1 AND menina_id = $2`,
+            [oficina_id, menina_id]
+        );
+        res.status(200).json({ mensagem: 'Presença confirmada!' });
+    } catch (erro) {
+        console.error(erro);
+        res.status(500).json({ erro: 'Erro ao registrar presença.' });
+    }
+}
+
+module.exports = { cadastrarOficina, inscreverMenina, registrarPresenca };
