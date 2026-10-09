@@ -1,0 +1,7 @@
+const express = require('express');
+const router = express.Router();
+const { adicionarPontos } = require('../controllers/gamificacaoController');
+
+router.post('/trilha/pontuar', adicionarPontos);
+
+module.exports = router;

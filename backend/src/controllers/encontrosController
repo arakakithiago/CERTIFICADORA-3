@@ -1,0 +1,19 @@
+const pool = require('../config/db');
+
+async function registrarEncontro(req, res) {
+    const { mentora_id, menina_id, data, resumo, avaliacao_progresso } = req.body;
+
+    try {
+        const resultado = await pool.query(
+            `INSERT INTO encontros_mentoria (mentora_id, menina_id, data, resumo, avaliacao_progresso)
+             VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+            [mentora_id, menina_id, data, resumo, avaliacao_progresso]
+        );
+        res.status(201).json({ mensagem: 'Encontro registrado com sucesso!', encontro: resultado.rows[0] });
+    } catch (erro) {
+        console.error(erro);
+        res.status(500).json({ erro: 'Erro ao registrar encontro de mentoria.' });
+    }
+}
+
+module.exports = { registrarEncontro };

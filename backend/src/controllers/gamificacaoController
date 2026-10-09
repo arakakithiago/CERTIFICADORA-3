@@ -1,0 +1,38 @@
+const pool = require('../config/db');
+
+async function adicionarPontos(req, res) {
+    const { menina_id, pontos } = req.body;
+
+    try {
+        // Atualiza os pontos da menina no banco
+        await pool.query(
+            `UPDATE menina SET pontos = COALESCE(pontos, 0) + $1 WHERE usuario_id = $2`,
+            [pontos, menina_id]
+        );
+
+        // Busca o total de pontos atualizado
+        const result = await pool.query(`SELECT pontos FROM menina WHERE usuario_id = $1`, [menina_id]);
+        const totalPontos = result.rows[0].pontos;
+
+        // Lógica automática de emblemas (exemplo: a cada 100 pontos, ganha um emblema)
+        let novoEmblema = null;
+        if (totalPontos >= 100 && totalPontos - pontos < 100) {
+            novoEmblema = 'Exploradora STEM';
+            await pool.query(
+                `INSERT INTO conquistas (menina_id, nome_emblema) VALUES ($1, $2)`,
+                [menina_id, novoEmblema]
+            );
+        }
+
+        res.status(200).json({ 
+            mensagem: 'Pontos atualizados com sucesso!', 
+            pontosAtuais: totalPontos, 
+            novaConquista: novoEmblema 
+        });
+    } catch (erro) {
+        console.error(erro);
+        res.status(500).json({ erro: 'Erro ao processar a gamificação.' });
+    }
+}
+
+module.exports = { adicionarPontos };
