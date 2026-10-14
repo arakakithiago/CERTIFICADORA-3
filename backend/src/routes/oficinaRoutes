@@ -1,0 +1,9 @@
+const express = require('express');
+const router = express.Router();
+const { cadastrarOficina, inscreverMenina, registrarPresenca } = require('../controllers/oficinaController');
+
+router.post('/oficinas', cadastrarOficina);
+router.post('/oficinas/inscricao', inscreverMenina);
+router.patch('/oficinas/presenca', registrarPresenca);
+
+module.exports = router;

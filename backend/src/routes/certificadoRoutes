@@ -1,0 +1,7 @@
+const express = require('express');
+const router = express.Router();
+const { gerarCertificado } = require('../controllers/certificadoController');
+
+router.post('/certificados/gerar', gerarCertificado);
+
+module.exports = router;

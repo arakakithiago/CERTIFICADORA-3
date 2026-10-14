@@ -1,0 +1,7 @@
+const express = require('express');
+const router = express.Router();
+const { registrarEncontro } = require('../controllers/encontrosController');
+
+router.post('/mentorias/encontros', registrarEncontro);
+
+module.exports = router;

@@ -1,0 +1,41 @@
+const PDFDocument = require('pdfkit');
+
+async function gerarCertificado(req, res) {
+    const { nome_menina, nome_atividade } = req.body;
+
+    if (!nome_menina || !nome_atividade) {
+        return res.status(400).json({ erro: 'Nome da menina e da atividade são obrigatórios.' });
+    }
+
+    try {
+        // Cria um novo documento PDF em formato Paisagem (Deitado)
+        const doc = new PDFDocument({ layout: 'landscape', size: 'A4' });
+
+        // Configura a resposta para o navegador entender que é um download de PDF
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename=Certificado-${nome_menina.replace(/\s+/g, '')}.pdf`);
+
+        // Envia o PDF direto para a resposta da API
+        doc.pipe(res);
+
+        // Desenhando o conteúdo do certificado
+        doc.rect(20, 20, doc.page.width - 40, doc.page.height - 40).stroke(); // Borda
+        doc.moveDown(3);
+        doc.fontSize(40).text('Certificado de Participação', { align: 'center' });
+        doc.moveDown(2);
+        doc.fontSize(20).text(`Certificamos que ${nome_menina}`, { align: 'center' });
+        doc.moveDown();
+        doc.text(`concluiu com sucesso a atividade:`, { align: 'center' });
+        doc.fontSize(25).text(`"${nome_atividade}"`, { align: 'center' });
+        doc.moveDown(3);
+        doc.fontSize(15).text('Projeto Meninas Digitais UTFPR-CP', { align: 'center' });
+
+        // Finaliza o documento
+        doc.end();
+    } catch (erro) {
+        console.error(erro);
+        res.status(500).json({ erro: 'Erro ao gerar o certificado em PDF.' });
+    }
+}
+
+module.exports = { gerarCertificado };

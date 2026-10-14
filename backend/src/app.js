@@ -4,6 +4,11 @@ const cors = require('cors');
 const pool = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const mentoraRoutes = require('./routes/mentoraRoutes');
+const oficinaRoutes = require('./routes/oficinaRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
+const encontrosRoutes = require('./routes/encontrosRoutes');
+const gamificacaoRoutes = require('./routes/gamificacaoRoutes');
+const certificadoRoutes = require('./routes/certificadoRoutes');
 
 const app = express();
 app.use(cors());
@@ -24,6 +29,11 @@ app.get('/status-banco', async (req, res) => {
 
 app.use('/api', authRoutes);
 app.use('/api', mentoraRoutes);
+app.use('/api', oficinaRoutes);
+app.use('/api', dashboardRoutes);
+app.use('/api', encontrosRoutes);
+app.use('/api', gamificacaoRoutes);
+app.use('/api', certificadoRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
