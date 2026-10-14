@@ -1,4 +1,19 @@
-const API_URL = 'http://localhost:3000/api'
+const API_URL = 'http://localhost:3001/api'
+
+export async function gerarCertificado(dados) {
+  const resposta = await fetch(`${API_URL}/certificados/gerar`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dados),
+  })
+
+  if (!resposta.ok) {
+    const resultado = await resposta.json()
+    throw new Error(resultado.erro || 'Erro ao gerar certificado.')
+  }
+
+  return resposta.blob()
+}
 
 export async function registrar(dados) {
   const resposta = await fetch(`${API_URL}/registro`, {

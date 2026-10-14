@@ -4,6 +4,7 @@ import iconIa from '../assets/icons/30_ia.png'
 import iconMentoria from '../assets/icons/03_mentoria.png'
 import iconProjeto from '../assets/icons/48_foguete_papel.png'
 import iconConcluido from '../assets/icons/22_concluido.png'
+import { Link } from 'react-router-dom'
 
 function TrailTimeline() {
   const etapas = [
@@ -24,9 +25,12 @@ function TrailTimeline() {
     <div className="bg-white rounded-2xl shadow-sm p-6">
       <div className="flex items-center justify-between mb-5">
         <h2 className="text-lg font-bold text-gray-900">Minha trilha</h2>
-        <button className="text-sm text-purple-600 font-semibold hover:underline">
+        <Link
+          to="/minha-trilha"
+          className="text-sm text-purple-600 font-semibold hover:underline"
+        >
           Ver completa →
-        </button>
+        </Link>
       </div>
 
       <div className="relative pl-2">

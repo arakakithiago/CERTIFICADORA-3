@@ -3,6 +3,7 @@ import iconLocalizacao from '../assets/icons/35_localizacao.png'
 import imgTecnologia from '../assets/icons/notebook.jpg'
 import imgIa from '../assets/icons/IA.jpg'
 import imgDesign from '../assets/icons/ideia.jpg'
+import { Link } from 'react-router-dom'
 
 function FeaturedActivities() {
   const atividades = [
@@ -39,9 +40,12 @@ function FeaturedActivities() {
     <div className="mt-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-bold text-gray-900">Atividades em destaque</h2>
-        <button className="text-sm text-purple-600 font-semibold hover:underline">
+        <Link
+          to="/atividades"
+          className="text-sm text-purple-600 font-semibold hover:underline"
+        >
           Ver todas →
-        </button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
