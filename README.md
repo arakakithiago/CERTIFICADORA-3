@@ -115,13 +115,25 @@ CERTIFICADORA-3/
 └── README.md
 ```
 
+## Ferramentas necessarias para rodar o projeto
+
+**Node JS (Instalação padrão) [**Download**](https://nodejs.org/en/download/).**
+
+**PostgreSQL (Instalação padrão) [**Download**](https://www.postgresql.org/download/).**
+
+**Visual Studio Code (Instalação padrão) [**Download**](https://code.visualstudio.com/).**
+
+**Navegador WEB**
+
 ## 🔌Como rodar o projeto
+
+Uma vez que todas as ferramentas para execução foram baixadas, basta seguir os seguintes passos no terminal do VScode:
 
 ### Back-end
 ```bash
 cd backend
 npm install
-npm run dev
+node src/app.js
 ```
 
 ### Front-end
