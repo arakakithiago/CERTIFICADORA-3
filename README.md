@@ -133,8 +133,15 @@ Uma vez que todas as ferramentas para execução foram baixadas, basta seguir os
 ```bash
 cd backend
 npm install
+cp .env.example .env
+# Edite DB_PASSWORD em .env com a senha do PostgreSQL
+npm run db:setup
 node src/app.js
 ```
+
+O comando `npm run db:setup` cria o banco definido em `DB_NAME` (por padrão,
+`trilha_digital`) e as tabelas necessárias para cadastro e autenticação.
+Para criar as contas de teste depois do setup, execute `node seed-contas-teste.js`.
 
 ### Front-end
 ```bash
