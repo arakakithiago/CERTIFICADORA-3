@@ -1,6 +1,7 @@
 import iconAtividades from '../assets/icons/03_atividades.png'
 import iconBadges from '../assets/icons/05_conquistas.png'
 import iconCertificados from '../assets/icons/06_certificados.png'
+import { Link } from 'react-router-dom'
 
 function JourneyCard({ percentual, atividadesConcluidas, totalAtividades, badges, certificados }) {
   return (
@@ -46,9 +47,12 @@ function JourneyCard({ percentual, atividadesConcluidas, totalAtividades, badges
         </div>
       </div>
 
-      <button className="w-full bg-purple-700 text-white font-semibold py-3 rounded-xl hover:bg-purple-800 transition">
-        Continuar minha jornada →
-      </button>
+      <Link
+        to="/certificados"
+        className="block w-full bg-purple-700 text-white text-center font-semibold py-3 rounded-xl hover:bg-purple-800 transition"
+      >
+        Ver certificados →
+      </Link>
     </div>
   )
 }

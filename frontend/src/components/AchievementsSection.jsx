@@ -4,6 +4,7 @@ import iconFutureAi from '../assets/icons/25_future_ai.png'
 import iconMentoriaEmAcao from '../assets/icons/26_mentoria_em_acao.png'
 import iconCriadora from '../assets/icons/27_criadora.png'
 import iconMeninaDigital from '../assets/icons/28_menina_digital.png'
+import { Link } from 'react-router-dom'
 
 function AchievementsSection() {
   const conquistas = [
@@ -19,9 +20,12 @@ function AchievementsSection() {
     <div className="bg-white rounded-2xl shadow-sm p-6 mt-6">
       <div className="flex items-center justify-between mb-5">
         <h2 className="text-lg font-bold text-gray-900">Suas conquistas</h2>
-        <button className="text-sm text-purple-600 font-semibold hover:underline">
+        <Link
+          to="/conquistas"
+          className="text-sm text-purple-600 font-semibold hover:underline"
+        >
           Ver todas →
-        </button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-3 sm:grid-cols-6 gap-4">
