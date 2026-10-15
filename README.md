@@ -25,7 +25,7 @@ O **Meninas Digitais UTFPR-CP** é um projeto de extensão que incentiva estudan
 
 - **Front-end:** React
 - **Back-end:** Node.js + Express
-- **Banco de dados:** MongoDB (Alterado durante o desenvolvimento)
+- **Banco de dados:** PostgreSQL
 - **Controle de versão:** Git / GitHub
 
 ## 📁Estrutura do projeto
