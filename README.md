@@ -5,9 +5,10 @@
 Sistema de Acompanhamento da Jornada de Meninas no Projeto de Extensão Meninas Digitais UTFPR-CP.
 </p>
 
-##  📚 Sobre o projeto
+##  📚 Objetivo do projeto
 
-O **Meninas Digitais UTFPR-CP** é um projeto de extensão que incentiva estudantes do ensino fundamental e médio de Cornélio Procópio a seguirem carreiras em STEM. O **Trilha Digital** centraliza o cadastro de atividades (oficinas, minicursos, mentorias) e acompanha a jornada individual de cada participante, com pareamento automático de mentoras, gamificação, geração de certificados e dashboard de indicadores de impacto.
+O **Meninas Digitais UTFPR-CP** é um projeto de extensão que incentiva estudantes do ensino fundamental e médio de Cornélio Procópio a seguirem carreiras em STEM. O **Trilha Digital** vem para centralizar o cadastro de atividades (oficinas, minicursos, mentorias) e acompanhar a jornada individual de cada participante, com pareamento automático de mentoras, gamificação, geração de certificados e dashboard de indicadores de impacto.
+
 
 ## Equipe — Grupo 7
 <p>
@@ -26,7 +27,20 @@ O **Meninas Digitais UTFPR-CP** é um projeto de extensão que incentiva estudan
 - **Front-end:** React
 - **Back-end:** Node.js + Express
 - **Banco de dados:** PostgreSQL
-- **Controle de versão:** Git / GitHub
+- Controle de versão:** Git / GitHub
+
+## Funções desenvolvidas até o momento
+- tela inicial; cadastro de alunas; login (perfis de
+mentora, aluna e coordenação); botão Sair.
+- **Aluna:** ver conquistas (ilustrativas); gerar certificado (preenchimento livre;
+futuramente restrito a oficinas concluídas); resumo da trilha (ilustrativo); atividades
+com futuras oficinas (inscrições ilustrativas, inativas); mentorias ainda vazio;
+dashboard com maioria dos botões inativa, apenas redirecionamentos laterais
+funcionam.
+- **Coordenação:** cadastro de mentora; edição de mentora (ativo, nome, e-mail);
+consulta de mentoras cadastradas.
+- **Mentora:** tela indisponível, login funciona, mas sem conteúdo.
+
 
 ## 📁Estrutura do projeto
 ```
@@ -151,16 +165,36 @@ npm run dev
 ```
 
 ### Login e senha de perfis de teste
-# Login como coordenação:
+Coordenação:
 ```bash
 login: coordenacao@teste.com
 Senha: 123456
 ```
-# Login como mentora:
+Mentora:
 ```bash
 login: mentora@teste.com
 Senha: 123456
 ```
+Aluna:
+```bash
+login: bruna@teste.com
+Senha: 123456
+```
+
+## Roteiro de teste
+Após executar o sistema conforme o README do repositório, há diferentes rotas. A
+recomendada: cadastrar uma aluna (o login é automático), explorar as funções e sair
+pelo canto superior direito. Em seguida, entrar como mentora ou coordenação com
+as credenciais fornecidas. No perfil de coordenação, é possível cadastrar mentoras
+e depois logar como uma delas. O teste é intuitivo e pode ser feito na ordem
+preferida.
+4.Objetivo do sistema
+O objetivo do Trilha Digital é ser uma plataforma web que centraliza o cadastro de
+atividades e acompanha a jornada individual de cada aluna, registrando participação
+em oficinas, minicursos e mentorias, sugerindo pareamento entre mentoras e
+alunas, recomendando próximas atividades e gerando indicadores de impacto.
+Como diferencial, inclui gamificação leve (emblemas e pontuação) e certificados em
+PDF
 
 ## Documentação
 
