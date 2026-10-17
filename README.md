@@ -150,6 +150,18 @@ npm install
 npm run dev
 ```
 
+### Login e senha de perfis de teste
+# Login como coordenação:
+```bash
+login: coordenacao@teste.com
+Senha: 123456
+```
+# Login como mentora:
+```bash
+login: mentora@teste.com
+Senha: 123456
+```
+
 ## Documentação
 
 O documento de Projeto Inicial está disponível em [**Projeto Inicial**](https://drive.google.com/file/d/1bqT2eTBG5ulltN4QFeJAyWxvGyYSDtY3/view?usp=sharing).
