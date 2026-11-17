@@ -1,104 +1,105 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import LayoutAluna from '../components/LayoutAluna'
+import EstadoCarregamento from '../components/EstadoCarregamento'
 import { useAuth } from '../context/AuthContext'
-import { gerarCertificado } from '../services/api'
-import Header from '../components/Header'
-import Sidebar from '../components/Sidebar'
+import { useCarregar } from '../hooks/useCarregar'
+import { gerarCertificado, listarAtividadesConcluidas } from '../services/api'
+import { categoria, formatarDataLonga } from '../utils/atividades'
 
 function Certificados() {
   const { usuario } = useAuth()
-  const [nomeAtividade, setNomeAtividade] = useState('')
-  const [erro, setErro] = useState('')
-  const [gerando, setGerando] = useState(false)
+  const [gerandoId, setGerandoId] = useState(null)
+  const [erroDownload, setErroDownload] = useState('')
 
-  async function handleSubmit(event) {
-    event.preventDefault()
-    setErro('')
-    setGerando(true)
+  const { dados: atividades, erro, carregando } = useCarregar(
+    () => listarAtividadesConcluidas(usuario.id),
+    [usuario.id]
+  )
 
+  async function baixar(atividade) {
+    setErroDownload('')
+    setGerandoId(atividade.id)
     try {
-      const pdf = await gerarCertificado({
-        nome_menina: usuario?.nome,
-        nome_atividade: nomeAtividade,
-      })
+      const pdf = await gerarCertificado(usuario.id, atividade.id)
       const url = URL.createObjectURL(pdf)
       const link = document.createElement('a')
-      const nomeArquivo = (usuario?.nome || 'participante').replace(/\s+/g, '')
+      const nomeArquivo = `${usuario.nome}-${atividade.titulo}`
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '')
+        .replace(/[^a-zA-Z0-9]+/g, '-')
       link.href = url
       link.download = `Certificado-${nomeArquivo}.pdf`
       link.click()
-      URL.revokeObjectURL(url)
-    } catch (error) {
-      setErro(error.message)
+      // Espera o navegador iniciar o download antes de liberar a memória.
+      setTimeout(() => URL.revokeObjectURL(url), 1000)
+    } catch (err) {
+      setErroDownload(err.message)
     } finally {
-      setGerando(false)
+      setGerandoId(null)
     }
   }
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar />
-      <main className="flex-1 bg-gray-50 p-8">
-        <Header />
-        <section className="mx-auto mt-8 max-w-3xl rounded-2xl bg-white p-8 shadow-sm">
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold text-gray-900">Meus certificados</h1>
-            <p className="mt-2 text-gray-500">
-              Gere o certificado de participação de uma atividade concluída.
-            </p>
-          </div>
+    <LayoutAluna>
+      <section className="mx-auto mt-4 max-w-3xl rounded-2xl bg-white p-6 sm:p-8 shadow-sm">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-gray-900">Meus certificados</h1>
+          <p className="mt-2 text-gray-500">
+            Cada atividade com presença confirmada gera um certificado de participação em PDF.
+          </p>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label
-                htmlFor="nome-participante"
-                className="mb-1 block text-sm font-semibold text-gray-700"
+        {erroDownload && (
+          <p role="alert" className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+            {erroDownload}
+          </p>
+        )}
+
+        <EstadoCarregamento
+          carregando={carregando}
+          erro={erro}
+          vazio={atividades?.length === 0}
+          mensagemVazio={
+            <>
+              Você ainda não concluiu nenhuma atividade.{' '}
+              <Link to="/atividades" className="font-semibold text-purple-700 hover:underline">
+                Ver atividades →
+              </Link>
+            </>
+          }
+        >
+          <ul className="divide-y divide-gray-100">
+            {atividades?.map((atividade) => (
+              <li
+                key={atividade.id}
+                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-4"
               >
-                Nome da participante
-              </label>
-              <input
-                id="nome-participante"
-                type="text"
-                value={usuario?.nome || ''}
-                readOnly
-                className="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 text-gray-600"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="nome-atividade"
-                className="mb-1 block text-sm font-semibold text-gray-700"
-              >
-                Atividade concluída
-              </label>
-              <input
-                id="nome-atividade"
-                type="text"
-                value={nomeAtividade}
-                onChange={(event) => setNomeAtividade(event.target.value)}
-                required
-                className="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                placeholder="Ex.: Introdução ao Desenvolvimento Web"
-              />
-            </div>
-
-            {erro && (
-              <p role="alert" className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
-                {erro}
-              </p>
-            )}
-
-            <button
-              type="submit"
-              disabled={gerando || !usuario?.nome}
-              className="w-full rounded-xl bg-purple-700 py-3 font-semibold text-white transition hover:bg-purple-800 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {gerando ? 'Gerando certificado...' : 'Gerar certificado em PDF'}
-            </button>
-          </form>
-        </section>
-      </main>
-    </div>
+                <div>
+                  <span
+                    className={`inline-block text-xs font-semibold px-3 py-1 rounded-full mb-1 ${
+                      categoria(atividade.categoria).cor
+                    }`}
+                  >
+                    {categoria(atividade.categoria).rotulo}
+                  </span>
+                  <p className="font-semibold text-gray-900">{atividade.titulo}</p>
+                  <p className="text-xs text-gray-400">{formatarDataLonga(atividade.data)}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => baixar(atividade)}
+                  disabled={gerandoId !== null}
+                  className="rounded-xl bg-purple-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-purple-800 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {gerandoId === atividade.id ? 'Gerando...' : 'Baixar PDF'}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </EstadoCarregamento>
+      </section>
+    </LayoutAluna>
   )
 }
 

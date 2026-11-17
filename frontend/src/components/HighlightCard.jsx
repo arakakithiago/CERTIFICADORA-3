@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 function HighlightCard() {
   return (
     <div className="bg-gradient-to-br from-purple-800 to-purple-950 rounded-2xl p-6 text-white relative overflow-hidden">
@@ -7,9 +9,12 @@ function HighlightCard() {
         "Tecnologia também é feita de meninas." 💜
       </p>
 
-      <button className="text-sm font-semibold text-purple-200 hover:text-white transition flex items-center gap-1">
+      <Link
+        to="/sobre"
+        className="relative z-10 text-sm font-semibold text-purple-200 hover:text-white transition inline-flex items-center gap-1"
+      >
         Conheça o projeto →
-      </button>
+      </Link>
 
       <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-pink-500/20 rounded-full blur-2xl"></div>
     </div>

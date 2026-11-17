@@ -8,7 +8,9 @@
   },
   "scripts": {
     "db:setup": "node setup-db.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "db:seed": "node seed-contas-teste.js",
+    "start": "node src/app.js",
+    "test": "node --test --test-concurrency=1 \"tests/**/*.test.js\""
   },
   "keywords": [],
   "author": "",

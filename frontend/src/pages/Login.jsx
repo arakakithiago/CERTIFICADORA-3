@@ -9,7 +9,7 @@ function Login() {
   const [erro, setErro] = useState('')
   const [carregando, setCarregando] = useState(false)
 
-  const { login } = useAuth()
+  const { login, avisoSessao } = useAuth()
   const navigate = useNavigate()
 
   async function handleSubmit(e) {
@@ -34,8 +34,15 @@ function Login() {
         <h1 className="text-2xl font-bold text-gray-900 mb-1">Bem-vinda de volta!</h1>
         <p className="text-gray-500 mb-6">Entre para continuar sua jornada</p>
 
+        {/* Motivo de um logout automático (ex.: conta desativada). */}
+        {avisoSessao && !erro && (
+          <div role="status" className="bg-amber-50 text-amber-800 text-sm rounded-lg px-4 py-2 mb-4">
+            Você foi desconectada: {avisoSessao}
+          </div>
+        )}
+
         {erro && (
-          <div className="bg-red-50 text-red-600 text-sm rounded-lg px-4 py-2 mb-4">
+          <div role="alert" className="bg-red-50 text-red-600 text-sm rounded-lg px-4 py-2 mb-4">
             {erro}
           </div>
         )}
