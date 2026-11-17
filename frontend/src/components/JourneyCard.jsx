@@ -24,8 +24,10 @@ function JourneyCard({ percentual, atividadesConcluidas, totalAtividades, badges
 
         <div>
           <p className="font-semibold text-gray-800">
-            {atividadesConcluidas} de {totalAtividades} atividades concluídas
+            {atividadesConcluidas} de {totalAtividades}{' '}
+            {totalAtividades === 1 ? 'atividade concluída' : 'atividades concluídas'}
           </p>
+          <p className="text-xs text-gray-500 mt-1">das atividades em que você se inscreveu</p>
         </div>
       </div>
 

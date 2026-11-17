@@ -1,5 +1,4 @@
-import Sidebar from '../components/Sidebar'
-import Header from '../components/Header'
+import LayoutAluna from '../components/LayoutAluna'
 import Hero from '../components/Hero'
 import JourneyCard from '../components/JourneyCard'
 import NextActivityCard from '../components/NextActivityCard'
@@ -8,51 +7,62 @@ import FeaturedActivities from '../components/FeaturedActivities'
 import HighlightCard from '../components/HighlightCard'
 import TrailTimeline from '../components/TrailTimeline'
 import JoinCard from '../components/JoinCard'
+import EstadoCarregamento from '../components/EstadoCarregamento'
+import { useAuth } from '../context/AuthContext'
+import { useCarregar } from '../hooks/useCarregar'
+import { obterRecomendacoes, obterTrilha } from '../services/api'
 
 function Dashboard() {
-  return (
-    <div className="flex">
-      <Sidebar />
-      <main className="flex-1 bg-gray-50 min-h-screen p-8">
-        <Header />
-        <Hero />
+  const { usuario } = useAuth()
+  const { dados, erro, carregando, recarregar } = useCarregar(async () => {
+    const [trilha, recomendacoes] = await Promise.all([
+      obterTrilha(usuario.id),
+      obterRecomendacoes(usuario.id, 3),
+    ])
+    return { trilha, recomendacoes }
+  }, [usuario.id])
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 space-y-6">
-            <div className="flex flex-col sm:flex-row gap-6">
-              <div className="flex-1">
-                <JourneyCard
-                  percentual={68}
-                  atividadesConcluidas={8}
-                  totalAtividades={12}
-                  badges={3}
-                  certificados={2}
-                />
+  return (
+    <LayoutAluna>
+      <Hero />
+
+      <EstadoCarregamento carregando={carregando} erro={erro}>
+        {dados && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2 space-y-6">
+              <div className="flex flex-col sm:flex-row gap-6">
+                <div className="flex-1">
+                  <JourneyCard
+                    percentual={dados.trilha.percentual}
+                    atividadesConcluidas={dados.trilha.atividadesConcluidas}
+                    totalAtividades={dados.trilha.totalAtividades}
+                    badges={dados.trilha.badges}
+                    certificados={dados.trilha.certificados}
+                  />
+                </div>
+                <div className="flex-1">
+                  <NextActivityCard atividade={dados.trilha.proximaAtividade} />
+                </div>
               </div>
-              <div className="flex-1">
-                <NextActivityCard
-                  categoria="TECNOLOGIA"
-                  titulo="Introdução ao Desenvolvimento Web"
-                  data="12 de out"
-                  hora="14h"
-                  local="UTFPR-CP"
-                  vagas={12}
-                />
-              </div>
+
+              <AchievementsSection conquistas={dados.trilha.conquistas} />
+              <FeaturedActivities
+                titulo="Recomendadas para você"
+                oficinas={dados.recomendacoes}
+                onAtualizado={recarregar}
+                mensagemVazio="Você já está inscrita em todas as atividades abertas. 🎉"
+              />
             </div>
 
-            <AchievementsSection />
-            <FeaturedActivities />
+            <div className="space-y-6">
+              <HighlightCard />
+              <TrailTimeline etapas={dados.trilha.etapas} />
+              <JoinCard />
+            </div>
           </div>
-
-          <div className="space-y-6">
-            <HighlightCard />
-            <TrailTimeline />
-            <JoinCard />
-          </div>
-        </div>
-      </main>
-    </div>
+        )}
+      </EstadoCarregamento>
+    </LayoutAluna>
   )
 }
 
