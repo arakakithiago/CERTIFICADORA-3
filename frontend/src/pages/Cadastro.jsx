@@ -1,7 +1,9 @@
+
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { registrar } from '../services/api'
 import { useAuth } from '../context/AuthContext'
+import meninasDigitais from '../assets/meninas_digitais.jpg'
 
 function Cadastro() {
   const [nome, setNome] = useState('')
@@ -19,7 +21,13 @@ function Cadastro() {
     setCarregando(true)
 
     try {
-      const usuario = await registrar({ nome, email, senha, tipo: 'menina' })
+      const usuario = await registrar({
+        nome,
+        email,
+        senha,
+        tipo: 'menina'
+      })
+
       login(usuario)
       navigate('/')
     } catch (err) {
@@ -30,74 +38,175 @@ function Cadastro() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-700 via-fuchsia-600 to-orange-400 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-sm">
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">Criar conta</h1>
-        <p className="text-gray-500 mb-6">Junte-se ao Meninas Digitais</p>
+    <div className="min-h-screen relative overflow-hidden bg-[#180d2b] flex items-center justify-center p-5">
 
-        {erro && (
-          <div className="bg-red-50 text-red-600 text-sm rounded-lg px-4 py-2 mb-4">
-            {erro}
+      <div className="absolute -top-40 -left-32 w-96 h-96 rounded-full bg-purple-700/30 blur-3xl" />
+      <div className="absolute -bottom-40 -right-32 w-96 h-96 rounded-full bg-pink-600/30 blur-3xl" />
+      <div className="absolute top-1/2 right-1/4 w-72 h-72 rounded-full bg-orange-500/10 blur-3xl" />
+
+      <div className="relative z-10 w-full max-w-5xl grid md:grid-cols-2 bg-white rounded-[28px] overflow-hidden shadow-2xl shadow-black/30">
+
+        <div className="hidden md:flex flex-col justify-between relative overflow-hidden bg-gradient-to-br from-[#5410a0] via-[#9214bd] to-[#e54a91] p-12 text-white">
+
+          <div className="absolute -right-20 -top-20 w-72 h-72 border border-white/10 rounded-full" />
+          <div className="absolute -right-10 -top-10 w-52 h-52 border border-white/10 rounded-full" />
+          <div className="absolute -left-20 -bottom-24 w-80 h-80 border border-white/10 rounded-full" />
+
+          <div className="relative z-10">
+
+            <img
+              src={meninasDigitais}
+              alt="Meninas Digitais"
+              className="w-16 h-16 object-contain mb-6"
+            />
+
+            <p className="text-sm tracking-[0.25em] font-semibold text-white/80">
+              UTFPR - CP
+            </p>
+
+            <h1 className="text-4xl font-extrabold leading-tight mt-3">
+              MENINAS
+              <br />
+              DIGITAIS
+            </h1>
+
+            <div className="w-16 h-1 bg-orange-300 rounded-full mt-5" />
+
+            <p className="text-white/85 text-base leading-relaxed mt-6 max-w-xs">
+              Conectando meninas ao universo da ciência, tecnologia,
+              engenharia e matemática.
+            </p>
           </div>
-        )}
 
-        <form onSubmit={handleSubmit}>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">
-            Nome
-          </label>
-          <input
-            type="text"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-            placeholder="Seu nome"
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            required
-          />
+          <div className="relative z-10">
+            <p className="text-white/80 text-sm">
+              Tecnologia, conhecimento e oportunidades.
+            </p>
 
-          <label className="block text-sm font-semibold text-gray-700 mb-1">
-            E-mail
-          </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="seu@email.com"
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            required
-          />
+            <p className="text-white/50 text-xs mt-2">
+              Meninas Digitais • UTFPR-CP
+            </p>
+          </div>
+        </div>
 
-          <label className="block text-sm font-semibold text-gray-700 mb-1">
-            Senha
-          </label>
-          <input
-            type="password"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            placeholder="Mínimo 6 caracteres"
-            minLength={6}
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            required
-          />
+        <div className="p-7 sm:p-10 md:p-12 flex flex-col justify-center">
 
-          <button
-            type="submit"
-            disabled={carregando}
-            className="w-full bg-purple-700 text-white font-semibold py-3 rounded-xl hover:bg-purple-800 transition disabled:opacity-50"
-          >
-            {carregando ? 'Criando conta...' : 'Criar conta'}
-          </button>
-        </form>
+          <div className="md:hidden mb-7">
+            <p className="text-xs font-bold tracking-[0.2em] text-purple-700">
+              UTFPR - CP
+            </p>
 
-        <p className="text-center text-xs text-gray-400 mt-4">
-          É mentora ou faz parte da coordenação? Sua conta é criada pela administração do projeto.
-        </p>
+            <h2 className="text-2xl font-extrabold text-gray-900 mt-1">
+              Meninas Digitais
+            </h2>
+          </div>
 
-        <p className="text-center text-sm text-gray-500 mt-2">
-          Já tem conta?{' '}
-          <Link to="/login" className="text-purple-700 font-semibold hover:underline">
-            Entrar
-          </Link>
-        </p>
+          <div className="mb-8">
+            <span className="text-xs font-bold tracking-widest uppercase text-purple-600">
+              Faça parte do projeto
+            </span>
+
+            <h2 className="text-3xl font-extrabold text-[#241438] mt-2">
+              Criar conta
+            </h2>
+
+            <p className="text-gray-500 mt-2 text-sm">
+              Junte-se ao Meninas Digitais e comece sua jornada!
+            </p>
+          </div>
+
+          {erro && (
+            <div
+              role="alert"
+              className="bg-red-50 border border-red-100 text-red-600 text-sm rounded-xl px-4 py-3 mb-5"
+            >
+              {erro}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+
+            <div>
+              <label htmlFor="nome" className="block text-sm font-semibold text-gray-700 mb-2">
+                Nome completo
+              </label>
+
+              <input
+                id="nome"
+                type="text"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                placeholder="Digite seu nome"
+                autoComplete="name"
+                className="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3.5 text-sm text-gray-800 placeholder:text-gray-400 outline-none transition focus:bg-white focus:border-purple-500 focus:ring-4 focus:ring-purple-100"
+                required
+              />
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+                E-mail
+              </label>
+
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="seu@email.com"
+                autoComplete="email"
+                className="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3.5 text-sm text-gray-800 placeholder:text-gray-400 outline-none transition focus:bg-white focus:border-purple-500 focus:ring-4 focus:ring-purple-100"
+                required
+              />
+            </div>
+
+            <div>
+              <label htmlFor="senha" className="block text-sm font-semibold text-gray-700 mb-2">
+                Senha
+              </label>
+
+              <input
+                id="senha"
+                type="password"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                placeholder="Mínimo 6 caracteres"
+                minLength={6}
+                autoComplete="new-password"
+                className="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3.5 text-sm text-gray-800 placeholder:text-gray-400 outline-none transition focus:bg-white focus:border-purple-500 focus:ring-4 focus:ring-purple-100"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={carregando}
+              className="w-full bg-gradient-to-r from-purple-700 to-fuchsia-600 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-purple-200 hover:from-purple-800 hover:to-fuchsia-700 hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {carregando ? 'Criando conta...' : 'Criar minha conta'}
+            </button>
+          </form>
+
+          <div className="border-t border-gray-100 mt-7 pt-5">
+
+            <p className="text-center text-xs text-gray-400 leading-relaxed">
+              É mentora ou faz parte da coordenação?
+              <br />
+              Sua conta é criada pela administração do projeto.
+            </p>
+
+            <p className="text-center text-sm text-gray-500 mt-5">
+              Já tem uma conta?{' '}
+              <Link
+                to="/login"
+                className="font-bold text-purple-700 hover:text-fuchsia-600 transition"
+              >
+                Entrar
+              </Link>
+            </p>
+          </div>
+
+        </div>
       </div>
     </div>
   )
