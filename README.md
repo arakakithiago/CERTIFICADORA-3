@@ -87,7 +87,7 @@ O **Meninas Digitais UTFPR-CP** é um projeto de extensão que incentiva estudan
 
 Abra dois terminais no VS Code, um para o back-end e outro para o front-end.
 
-### 1. Clonar o repositorio
+### 0. Clonar o repositorio
 ```bash
 git clone https://github.com/arakakithiago/CERTIFICADORA-3
 cd CERTIFICADORA-3
